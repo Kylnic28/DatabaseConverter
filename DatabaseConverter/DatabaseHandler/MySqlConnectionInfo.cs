@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,9 @@ namespace DatabaseConverter.Handler
             this.Password = password;
             this.Database = database;
         }
+
+
+        public MySqlConnection GetConnection() => new($"server={Host};uid={Username};pwd={Password};database={Database}");
 
     }
 }

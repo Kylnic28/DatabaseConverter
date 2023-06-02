@@ -1,17 +1,17 @@
-﻿using System.Text;
+﻿using DatabaseConverter.DatabaseHandler;
+using System.Text;
 
 namespace DatabaseConverter
 {
     public abstract class BaseConverter
     {
-        private string _databaseName;
-        private StringBuilder _codeBuilder;
+        protected readonly string _tableName;
 
-        public BaseConverter(string databaseName) 
+        protected readonly MySqlHandler _handler;
+        public BaseConverter(string tableName, MySqlHandler handler) 
         {
-            _databaseName = databaseName;
-            _codeBuilder = new StringBuilder();
-
+            _tableName = tableName;
+            _handler = handler;
         }
 
         public abstract bool Convert(string filePath, bool generateConstructor = false);

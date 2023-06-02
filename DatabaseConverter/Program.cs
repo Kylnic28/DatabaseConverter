@@ -2,14 +2,22 @@
 
 using DatabaseConverter.CodeBuilder;
 using DatabaseConverter.CodeBuilder.Attributes;
+using DatabaseConverter.Converter;
+using DatabaseConverter.DatabaseHandler;
+using DatabaseConverter.Extensions;
 
-CSharpCodeBuilder codeBuilder = new CSharpCodeBuilder();
+MySqlHandler handler = new(new("127.0.0.1", 3306, "Helnesis", "helnesis", "world_classic"));
 
-codeBuilder.AppendUsing("System.IO");
-codeBuilder.AppendNamespace("Database");
-codeBuilder.AppendClass("Person");
-codeBuilder.AppendProperty("Name", typeof(string), propertyAccessibility: PropertyType.GetInit);
-codeBuilder.AppendProperty("Age", typeof(int), propertyAccessibility: PropertyType.GetInit);
-codeBuilder.AppendMethod("SetAge", typeof(int), code: "if (newAge >= 1 && newAge <= 100) { this.Age = newAge; }", parameters: new List<Variable> { new("newAge", typeof(int))});
+var table = handler.ExecuteQuery("SHOW TABLES");
 
-codeBuilder.SaveTo("person_file.cs");
+foreach(var data in table)
+{
+    foreach(var value in data.Value)
+    {
+        var tableName = value as string;
+
+        OracleMySqlConverter converter = new(tableName, handler);
+        converter.Convert($"sourcefiles/{tableName.ToPascalCase()}.cs", true);
+    }
+}
+

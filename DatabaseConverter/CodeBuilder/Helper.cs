@@ -42,6 +42,12 @@ namespace DatabaseConverter.CodeBuilder
                 case Type _ when inputType == typeof(byte):
                     return isArray ? "byte[]" : "byte";
 
+                case Type _ when inputType == typeof(float):
+                    return isArray ? "float[]" : "float";
+
+                case Type _ when inputType == typeof(double):
+                    return isArray ? "double[]" : "double";
+
                 default:
                     return isArray ? string.Concat(inputType.Name, "[]") : inputType.Name;
             }
