@@ -16,8 +16,12 @@ foreach(var data in table)
     {
         var tableName = value as string;
 
-        OracleMySqlConverter converter = new(tableName, handler);
-        converter.Convert($"sourcefiles/{tableName.ToPascalCase()}.cs", true);
+        if (tableName != null)
+        {
+            OracleMySqlConverter converter = new(tableName, handler);
+            converter.Convert($"sourcefiles/{tableName.ToPascalCase()}.cs", true, true);
+        }
+
     }
 }
 

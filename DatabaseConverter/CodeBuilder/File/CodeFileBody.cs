@@ -72,7 +72,12 @@ namespace DatabaseConverter.CodeBuilder.File
                 if (constructor != null)
                 {
                     var constructorVisibility = constructor.VisibilityLevel.ToString().ToLower();
-                    CodeWriter.AppendLine($"{constructorVisibility} {Name} {constructor.GetParameters} {base.StartBracket}");
+
+                    if (constructor.GetParameters == string.Empty)
+                        CodeWriter.AppendLine($"{constructorVisibility} {Name}() {base.StartBracket}");
+                    else
+                        CodeWriter.AppendLine($"{constructorVisibility} {Name} {constructor.GetParameters} {base.StartBracket}");
+
                     CodeWriter.AppendLine($"{constructor.Code} {base.EndBracket}");
                 }
             }
@@ -170,7 +175,7 @@ namespace DatabaseConverter.CodeBuilder.File
             else
                 return string.Concat(strOut, "()");
         }
-        private string GetParameters => $"({string.Join(',', Parameters)})";
+        private string GetParameters => Parameters != null ? $"({string.Join(',', Parameters)})" : "";
     }
 
     public sealed class BodyConstructor
@@ -186,7 +191,7 @@ namespace DatabaseConverter.CodeBuilder.File
             Code = code;
         }
 
-        public string GetParameters => $"({string.Join(',', Parameters)})";
+        public string GetParameters => Parameters != null ? $"({string.Join(',', Parameters)})" : "";
     }
 
 }

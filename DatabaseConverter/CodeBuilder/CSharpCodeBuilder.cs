@@ -13,8 +13,10 @@ namespace DatabaseConverter.CodeBuilder
     {
         private CodeFileHeader _header;
         private CodeFileBody _body;
-        private bool _hasNamespace;
+        public CodeFileHeader Header { get => _header; }
+        public CodeFileBody Body { get => _body; }
 
+        private bool _hasNamespace;
         public CSharpCodeBuilder()
         {
             _header = new CodeFileHeader();

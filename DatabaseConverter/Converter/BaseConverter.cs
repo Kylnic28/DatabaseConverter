@@ -14,6 +14,13 @@ namespace DatabaseConverter
             _handler = handler;
         }
 
-        public abstract bool Convert(string filePath, bool generateConstructor = false);
+        /// <summary>
+        /// Generate source file.
+        /// </summary>
+        /// <param name="filePath">Path to source file.</param>
+        /// <param name="generateConstructor">Constructor will be generated.</param>
+        /// <param name="generateMethods">Methods will be generated.</param>
+        /// <returns>True if success, otherwise, false.</returns>
+        public abstract bool Convert(string filePath, bool generateConstructor = false, bool generateMethods = false);
     }
 }
